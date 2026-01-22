@@ -96,6 +96,20 @@ def load_data(data_name, data_type, model_name, projector=False, data_dir=None):
     print(f"Load data_dir: {data_dir}")
     input_dir = os.path.join(data_dir, data_name, model_name)
     print(f"Loading data from {input_dir}")
+    if not os.path.isdir(input_dir):
+        dataset_dir = os.path.join(data_dir, data_name)
+        available_models = []
+        if os.path.isdir(dataset_dir):
+            available_models = sorted(
+                d for d in os.listdir(dataset_dir)
+                if os.path.isdir(os.path.join(dataset_dir, d))
+            )
+        available_message = ", ".join(available_models) if available_models else "none"
+        raise FileNotFoundError(
+            f"Missing data directory: {input_dir}. "
+            f"Available model folders under {dataset_dir}: {available_message}. "
+            "Set --augment_model to one of the available folders or regenerate data with src/augment.py."
+        )
     files = [f for f in os.listdir(input_dir)]
 
     if len(files) > 1: # more types in dataset

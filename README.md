@@ -191,7 +191,7 @@ python3 src/encode.py \
 | `lora_rank`, `lora_alpha`       | LoRA parameters, dropout will be set to 0 |
 | `projector`                     | Whether to use projector |
 
-Set `projector` to encode the data from `data_aug_projector` folder and for PRAG unset `projector` to encode the data from `data_aug` folder.
+Set `projector` to encode the data from the extracted `data_aug_projector` folder at the repository root and for PRAG unset `projector` to encode the data from `data_aug` folder.
 
 
 All generated parameters are stored in the `offline` folder. 
