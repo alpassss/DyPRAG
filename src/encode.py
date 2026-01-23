@@ -127,7 +127,13 @@ def train(question, augments, args, model, tokenizer,
 
 def main(args):
     if args.projector:
-        data_list = load_data(args.dataset, args.data_type, args.augment_model, "./data_aug_projector")
+        data_list = load_data(
+            args.dataset,
+            args.data_type,
+            args.augment_model,
+            projector=True,
+            data_dir=os.path.join(ROOT_DIR, "data_aug_projector"),
+        )
     else:
         data_list = load_data(args.dataset, args.data_type, args.augment_model)
     model, tokenizer, _generation_config = get_model(args.model_name)

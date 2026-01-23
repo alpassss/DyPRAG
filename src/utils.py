@@ -96,6 +96,23 @@ def load_data(data_name, data_type, model_name, projector=False, data_dir=None):
     print(f"Load data_dir: {data_dir}")
     input_dir = os.path.join(data_dir, data_name, model_name)
     print(f"Loading data from {input_dir}")
+    if not os.path.isdir(input_dir):
+        dataset_dir = os.path.join(data_dir, data_name)
+        available_models = []
+        if os.path.isdir(dataset_dir):
+            try:
+                available_models = sorted(
+                    d for d in os.listdir(dataset_dir)
+                    if os.path.isdir(os.path.join(dataset_dir, d))
+                )
+            except OSError:
+                available_models = []
+        available_message = ", ".join(available_models) if available_models else "none"
+        raise FileNotFoundError(
+            f"Missing data directory: {input_dir}. "
+            f"Available model folders under {dataset_dir}: {available_message}. "
+            "Set --augment_model to one of the available folders or regenerate data with src/augment.py."
+        )
     files = [f for f in os.listdir(input_dir)]
 
     if len(files) > 1: # more types in dataset
@@ -141,7 +158,7 @@ def get_model_path(model_name):
     if model_name == "llama3-8b-instruct": 
         return path + "Meta-Llama-3-8B-Instruct"
     elif model_name == "qwen2.5-1.5b-instruct":
-        return path + "Qwen2.5-1.5B-Instruct"
+        return path + "Qwen/Qwen2.5-1.5B-Instruct"
     elif model_name == "llama3.2-1b-instruct":
         return path + "Llama-3.2-1B-Instruct"
     else:

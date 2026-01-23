@@ -58,12 +58,14 @@ pip install -r requirements.txt
 
 > Note: for `data_aug` (test examples in DyPRAG), we use files provided in [PRAG](https://github.com/oneal2000/PRAG/blob/main/data_aug.tar.gz).  
 We also provide our complementation for `data_aug` in `data_aug.tar.gz` and `data_aug_projector` (augmented training examples in DyPRAG) in `data_aug_projector.tar.gz`.  
-In order to extract it, run the command `tar -xzvf data_aug.tar.gz` and `tar -xzvf data_aug_projector.tar.gz` in your terminal.
+In order to extract it, run the command `tar -xzvf data_aug.tar.gz` and `tar -xzvf data_aug_projector.tar.gz` in your terminal.  
+`data_aug_projector` contains 200 augmented samples per dataset/model and is used for Stage 1 augment + Stage 1 encode + Stage 2 projector training (see `configs/DyPRAG/augment.sh`, `configs/DyPRAG/encode.sh`).  
+`data_aug` is the evaluation/test set used for Stage 3 inference and Table 1 metrics on 2wikimultihopqa/hotpotqa/popqa/complexwebquestions (see `configs/DyPRAG/inference_main.sh`).
 
-If you want to rerun this process, please process the following steps:
-> We following [PRAG](https://github.com/oneal2000/PRAG) to prepare the data.
+If you want to rerun this process, please follow the steps below:
+> We follow [PRAG](https://github.com/oneal2000/PRAG) to prepare the data.
 
-**Prepare retrival data: BM25**
+**Prepare retrieval data: BM25**
 1. Download the Wikipedia dump from the [DPR repository](https://github.com/facebookresearch/DPR/blob/main/dpr/data/download_data.py#L32) using the following command:
 ```
 mkdir -p data/dpr
@@ -133,7 +135,9 @@ wget -P data/ragtruth https://github.com/ParticleMedia/RAGTruth/blob/main/datase
 ```
 
 ## Three Stages Reproduce of DyPRAG
-We provide detail command for following three stages in `configs` folder for both PRAG and DyPRAG.
+We provide detailed commands for the following three stages in `configs` folder for both PRAG and DyPRAG.  
+To reproduce Table 1 for 2wikimultihopqa/hotpotqa/popqa/complexwebquestions, run `configs/DyPRAG/augment.sh` + `configs/DyPRAG/encode.sh` on `data_aug_projector` (200 samples per dataset/model) before training.  
+Then use `configs/DyPRAG/inference_main.sh` on `data_aug` for Stage 3 evaluation.
 ### Stage 1: Doc-Param Pair Collection
 1. **Data Augmentation**
 ```
@@ -191,7 +195,7 @@ python3 src/encode.py \
 | `lora_rank`, `lora_alpha`       | LoRA parameters, dropout will be set to 0 |
 | `projector`                     | Whether to use projector |
 
-Set `projector` to encode the data from `data_aug_projector` folder and for PRAG unset `projector` to encode the data from `data_aug` folder.
+Set `projector` to encode the data from the extracted `data_aug_projector` folder at the repository root and for PRAG unset `projector` to encode the data from `data_aug` folder.
 
 
 All generated parameters are stored in the `offline` folder. 
