@@ -63,9 +63,9 @@ In order to extract it, run the command `tar -xzvf data_aug.tar.gz` and `tar -xz
 `data_aug` is the evaluation/test set used for Stage 3 inference and Table 1 metrics on 2wikimultihopqa/hotpotqa/popqa/complexwebquestions (see `configs/DyPRAG/inference_main.sh`).
 
 If you want to rerun this process, please follow the steps below:
-> We are following [PRAG](https://github.com/oneal2000/PRAG) to prepare the data.
+> We follow [PRAG](https://github.com/oneal2000/PRAG) to prepare the data.
 
-**Prepare retrival data: BM25**
+**Prepare retrieval data: BM25**
 1. Download the Wikipedia dump from the [DPR repository](https://github.com/facebookresearch/DPR/blob/main/dpr/data/download_data.py#L32) using the following command:
 ```
 mkdir -p data/dpr
@@ -135,7 +135,7 @@ wget -P data/ragtruth https://github.com/ParticleMedia/RAGTruth/blob/main/datase
 ```
 
 ## Three Stages Reproduce of DyPRAG
-We provide detailed commands for following three stages in `configs` folder for both PRAG and DyPRAG.  
+We provide detailed commands for the following three stages in `configs` folder for both PRAG and DyPRAG.  
 To reproduce Table 1 for 2wikimultihopqa/hotpotqa/popqa/complexwebquestions, run `configs/DyPRAG/augment.sh` + `configs/DyPRAG/encode.sh` on `data_aug_projector` (200 samples per dataset/model) before training.  
 Then use `configs/DyPRAG/inference_main.sh` on `data_aug` for Stage 3 evaluation.
 ### Stage 1: Doc-Param Pair Collection
