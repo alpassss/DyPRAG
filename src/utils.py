@@ -158,7 +158,7 @@ def get_model_path(model_name):
     if model_name == "llama3-8b-instruct": 
         return path + "Meta-Llama-3-8B-Instruct"
     elif model_name == "qwen2.5-1.5b-instruct":
-        return path + "Qwen2.5-1.5B-Instruct"
+        return path + "Qwen/Qwen2.5-1.5B-Instruct"
     elif model_name == "llama3.2-1b-instruct":
         return path + "Llama-3.2-1B-Instruct"
     else:
